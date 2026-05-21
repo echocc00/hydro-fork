@@ -143,12 +143,15 @@ class AiAnalyzerService extends Service {
             logger.warn('AI Analyzer: apiKey not configured, service will run without analysis');
         }
 
-        yield this.ctx.on('record/judge', async (rdoc, updated, pdoc) => {
-            if (!updated || !rdoc?.code || !this.config.apiKey) return;
+        yield this.ctx.on('record/change', async (rdoc) => {
+            if (!rdoc?.code || !this.config.apiKey) return;
+            const terminalStatuses = [1,2,3,4,5,6,7,8,9,10,13];
+            if (!terminalStatuses.includes(rdoc.status)) return;
+            if (rdoc.aiAnalysis) return;
 
             this.enqueue(async () => {
                 try {
-                    const pdocData = pdoc || await ProblemModel.get(rdoc.domainId, rdoc.pid);
+                    const pdocData = await ProblemModel.get(rdoc.domainId, rdoc.pid);
                     const title = pdocData?.title || `Problem ${rdoc.pid}`;
                     const content = (pdocData?.content || '').toString();
 
