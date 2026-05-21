@@ -77,3 +77,41 @@ $header-gap-mini-domain = ($header-bg-height-mini - $nav-item-height - $header-l
   border: 0
   border-radius: 0
   outline: 0
+
+// Theme toggle button
+.nav__theme-toggle
+  display: inline-flex
+  align-items: center
+  justify-content: center
+  width: rem($nav-item-height)
+  height: rem($nav-item-height)
+  cursor: pointer
+  background: none
+  border: none
+  color: inherit
+  font-size: 1.2rem
+  transition: transform .2s ease-out-sine
+  outline: none
+
+  &:hover
+    transform: scale(1.15)
+
+  &:active
+    transform: scale(.9)
+
+  .theme--dark &
+    .nav__theme-toggle__icon--light
+      display: none
+    .nav__theme-toggle__icon--dark
+      display: inline
+
+  .nav__theme-toggle__icon--dark
+    display: none
+
+  .nav__theme-toggle__icon--light
+    display: inline
+
+.nav__theme-toggle__icon
+  width: 20px
+  height: 20px
+
