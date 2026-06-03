@@ -1,4 +1,4 @@
-{% import "components/form.html" as form with context %}
+﻿{% import "components/form.html" as form with context %}
 {% import "components/sidemenu.html" as sidemenu with context %}
 {% import "components/paginator.html" as paginator with context %}
 {% import "components/nothing.html" as nothing with context %}
@@ -19,7 +19,7 @@
   <link rel="icon" type="image/png" href="{{ UiContext.cdn_prefix }}favicon-96x96.png" sizes="96x96">
   <link rel="icon" type="image/png" href="{{ UiContext.cdn_prefix }}favicon-16x16.png" sizes="16x16">
   {% if handler.context.request.url %}<link rel="canonical" href="{{ model.system.get('server.url') }}{{ handler.context.request.url.substring(1) }}">{% endif %}
-  <meta name="theme-color" content="#56758f">
+  <meta name="theme-color" content="#e05a2d">
   {% block ogp_site %}
   <meta property="og:site_name" content="{{ (handler.domain|default({ui:[]})).ui.name|default(model.system.get('server.name')) }}" />
   <meta property="og:url" content="{{ model.system.get('server.url') }}{{ handler.request.path.slice(1) }}" />

@@ -100,7 +100,10 @@ export class JudgeResultCallbackContext {
         } else {
             const rdoc = await record.update(this.task.domainId, new ObjectId(this.task.rid as string), $set, $push, $unset, $inc);
             body.key = 'next';
-            if (rdoc) this.ctx.broadcast('record/change', rdoc, $set, $push, body);
+            if (rdoc) {
+                logger.debug('_next broadcast record/change: rid=%s status=%d hasCode=%s', rdoc._id, rdoc.status, !!rdoc.code);
+                this.ctx.broadcast('record/change', rdoc, $set, $push, body);
+            }
         }
     }
 
@@ -110,7 +113,10 @@ export class JudgeResultCallbackContext {
         } = processPayload(body);
         body.key = 'next';
         const rdoc = await record.update(domainId, rid, $set, $push, $unset, $inc);
-        if (rdoc) app.broadcast('record/change', rdoc, $set, $push, body);
+        if (rdoc) {
+            logger.debug("next(static) broadcast record/change: rid=%s status=%d hasCode=%s", rdoc._id, rdoc.status, !!rdoc.code);
+            app.broadcast("record/change", rdoc, $set, $push, body);
+        }
     }
 
     next(body: Partial<JudgeResultBody>) {
@@ -159,7 +165,8 @@ export class JudgeResultCallbackContext {
         const rdoc = await record.update(this.task.domainId, new ObjectId(this.task.rid as string), $set, $push, $unset);
         if (rdoc) {
             body.key = 'end';
-            bus.broadcast('record/change', rdoc, null, null, body); // trigger a full update
+            logger.debug("_end broadcast record/change: rid=%s status=%d hasCode=%s", rdoc._id, rdoc.status, !!rdoc.code);
+            bus.broadcast("record/change", rdoc, null, null, body); // trigger a full update
             await JudgeResultCallbackContext.postJudge(rdoc, this);
         }
         this.resolve(rdoc);
@@ -173,7 +180,8 @@ export class JudgeResultCallbackContext {
         const rdoc = await record.update(domainId, rid, $set, $push, $unset);
         if (rdoc) {
             body.key = 'end';
-            app.broadcast('record/change', rdoc, null, null, body); // trigger a full update
+            logger.debug("end(static) broadcast record/change: rid=%s status=%d hasCode=%s", rdoc._id, rdoc.status, !!rdoc.code);
+            app.broadcast("record/change", rdoc, null, null, body); // trigger a full update
             await JudgeResultCallbackContext.postJudge(rdoc);
         }
     }

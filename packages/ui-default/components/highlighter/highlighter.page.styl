@@ -1,12 +1,14 @@
 @import 'prism-themes/themes/prism-vs.css'
 
-pre, code
+pre
   background: $syntax-hl-bg-color
+  text-shadow: none
 
 pre > code
   background: none
   line-height: 1.5
-  color: black
+  color: #2d2d2d
+  text-shadow: none
   text-align: left
   white-space: pre-wrap
   word-spacing: normal
@@ -29,8 +31,7 @@ code
   right: 0
   padding: inherit 0
   margin-top: 1em /* Same as .prism’s padding-top */
-  background: hsla(24, 20%, 50%,.08)
-  background: linear-gradient(to right, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0))
+  background: rgba(0, 0, 0, 0.06)
   pointer-events: none
   line-height: inherit
   white-space: pre

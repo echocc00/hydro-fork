@@ -52,9 +52,9 @@ const AppInner = defineSlot("page:app", () => {
                 hiddenFrom="sm"
                 size="sm"
               />
-              <Title order={3} component={Link} to="homepage">
+              <Title order={3}><Link to="homepage" style={{ color: 'inherit', textDecoration: 'none' }}>
                 Hydro
-              </Title>
+              </Link></Title>
             </Group>
             <Group>
               <Text size="sm" c="dimmed">

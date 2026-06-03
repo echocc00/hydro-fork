@@ -1,4 +1,4 @@
-.nav--placeholder
+﻿.nav--placeholder
   height: $nav-item-height
 
 .nav
@@ -11,7 +11,7 @@
   transition: background .2s
   transition-timing-function: ease-out-cubic
   z-index: 500
-  background: rgba(#FFF, 0.98)
+  background: rgba(250, 248, 243, 0.97)
 
   .nav__item
     color: $text-1-color
@@ -22,7 +22,7 @@
                     0 0 30px $nav-item-active-color
     &:hover
       border-color: $nav-item-hover-color
-      background: #F8F8F8
+      background: #f5f0e8
       &:before
         box-shadow: none
 
@@ -57,7 +57,7 @@
   z-index: 300
   transition: box-shadow .2s
   transition-timing-function: ease-out-cubic
-  box-shadow: 0 0 6px rgba(#000, 0.3)
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06)
 
   .nojs &
     display: none
@@ -90,7 +90,7 @@
     color: #000
 
   &.nav--active
-    border-color: $nav-item-active-immersive-color
+    border-color: $primary-color
     &:before
       box-shadow: 0 0 30px #FFF,
                   0 0 30px #FFF,

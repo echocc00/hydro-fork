@@ -1,11 +1,21 @@
-// Dark theme palette - indigo-blue tech feel
-$dark-bg-base    = #0b0b14
-$dark-bg-surface = #14142b
-$dark-bg-hover   = #1e1e3a
-$dark-border     = #2a2a45
-$dark-text-primary   = #e8e8f0
-$dark-text-secondary = #9898b8
-$dark-accent     = #818cf8
+﻿// Dark theme palette — code-editor terminal aesthetic
+// Inspired by VoltAgent, xAI, ElevenLabs DESIGN.md patterns
+// Contrast tuned for WCAG AA readability on dark backgrounds
+// Covers ALL component and page hardcoded colors
+
+$dark-bg-base    = #141418
+$dark-bg-surface = #1e1e24
+$dark-bg-hover   = #2a2a32
+$dark-border     = #333340
+$dark-text-primary   = #e4e4ec
+$dark-text-secondary = #a0a0ac
+$dark-text-tertiary  = #787880
+$dark-accent     = #00d992
+$dark-accent-hover  = #00b87a
+$dark-accent-dim = rgba(0, 217, 146, 0.12)
+$dark-error      = #ff453a
+$dark-warning    = #ff9f0a
+$dark-success    = #30d158
 
 $content-color = $dark-text-primary
 $content-second-color = $dark-text-secondary
@@ -24,113 +34,409 @@ $hover-background-color = $dark-bg-hover
   #panel
     background-color: $main-background-color
 
+  // ====================================================
+  // NAVIGATION
+  // ====================================================
   .nav
-    background-color: $second-background-color
-
-  .nav .nav__item:hover
-    background-color: $hover-background-color
+    background-color: $main-background-color
+    border-bottom: 1px solid $dark-border
 
   .nav .nav__item
-    color: $content-color
+    color: $dark-text-secondary
 
+    &:hover
+      background-color: transparent
+      color: $dark-accent
+
+    &:visited, &:active
+      color: $dark-text-secondary
+
+    &.nav--active
+      color: $dark-accent !important
+
+  .nav__item--round
+    background-color: $dark-accent
+    color: $dark-bg-base !important
+
+  // ====================================================
+  // SECTIONS / CARDS
+  // ====================================================
   .section
-    background-color: $second-background-color
+    background-color: $dark-bg-surface
     box-shadow: none
-
-  .footer
-    background-color: $second-background-color
-    color: $content-color
-
-  h1, h2, h3, h4, h5, h6
-    color: $content-color
-
-  a, .link, a:visited, .link:visited, a:hover, .link:hover, a:active, .link:active
-    color: $content-second-color
-
-  .typo a:not(.user-profile-name):not(.media-link), .typo .link:not(.user-profile-name):not(.media-link), .typo-a:not(.user-profile-name):not(.media-link), .typo a:visited:not(.user-profile-name):not(.media-link), .typo .link:visited:not(.user-profile-name):not(.media-link), .typo-a:visited:not(.user-profile-name):not(.media-link), .typo a:active:not(.user-profile-name):not(.media-link), .typo .link:active:not(.user-profile-name):not(.media-link), .typo-a:active:not(.user-profile-name):not(.media-link), .typo a:hover:not(.user-profile-name):not(.media-link), .typo .link:hover:not(.user-profile-name):not(.media-link), .typo-a:hover:not(.user-profile-name):not(.media-link)
-    color: $accent-color
+    border: 1px solid $dark-border
+    border-radius: 12px
 
   .section__title
-    color: $content-second-color
+    color: $dark-text-primary
 
+  h1, h2, h3, h4, h5, h6
+    color: $dark-text-primary
+
+  // ====================================================
+  // LINKS
+  // ====================================================
+  a, .link
+    &, &:visited
+      color: $dark-text-secondary
+    &:hover, &:active
+      color: $dark-accent
+
+  .typo a:not(.user-profile-name):not(.media-link),
+  .typo .link:not(.user-profile-name):not(.media-link),
+  .typo-a:not(.user-profile-name):not(.media-link)
+    &, &:visited, &:active, &:hover
+      color: $dark-accent
+
+  // ====================================================
+  // BUTTONS
+  // ====================================================
+  .button:not(.codicon)
+    background-color: $dark-bg-hover
+    border: 1px solid $dark-border
+    border-radius: 8px
+    color: $dark-text-secondary
+    transition: all 0.15s ease
+
+    &:hover:not(.disabled)
+      border-color: $dark-accent
+      color: $dark-accent
+      box-shadow: none
+
+  .button.primary:not(.codicon)
+    background-color: $dark-accent
+    border-color: $dark-accent
+    color: $dark-bg-base !important
+
+    &:hover:not(.disabled)
+      background-color: $dark-accent-hover
+      border-color: $dark-accent-hover
+
+  // ====================================================
+  // DROPDOWNS / MENUS
+  // ====================================================
   .dropdown .menu
-    box-shadow: 0 0.125rem 0.4375rem $dark-border
-    background-color: $dark-bg-surface
-
-  a.menu__link:not(.disabled):hover, button.menu__link:not(.disabled):hover
-    color: $dark-text-secondary
-    background-color: $hover-background-color
-
-  blockquote, blockquote.blue, blockquote.red, blockquote.yellow, blockquote.warn, blockquote.note
-    background-color: $dark-bg-surface
-    color: $dark-text-secondary
-
-  blockquote
-    border-left-color: $dark-border
-
-  a.menu__link.active, button.menu__link.active, a.menu__link.active:hover, button.menu__link.active:hover
-    background-color: #ec4899
-    color: #fff
-
-  .menu__seperator
-    border-top-color: $dark-border
+    background-color: $dark-bg-hover
+    border: 1px solid $dark-border
+    border-radius: 8px
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5)
 
   .menu__link
     color: $dark-text-secondary
 
-  .button:not(.codicon)
-    background-color: $dark-border
-    border: 1px solid $dark-border
+  a.menu__link:not(.disabled):hover,
+  button.menu__link:not(.disabled):hover
+    color: $dark-accent
+    background-color: $dark-accent-dim
 
-  .button:not(.codicon),.button:not(.codicon):visited,.button:not(.codicon):hover,.typo .button:not(.codicon),.typo .button:not(.codicon):visited,.typo .button:not(.codicon):hover
-    color: $dark-text-secondary
+  a.menu__link.active,
+  button.menu__link.active
+    background-color: $dark-accent-dim
+    color: $dark-accent
 
-  .button:not(.codicon):not(.disabled):hover,.button:not(.codicon):not(.disabled):focus
-    background-color: $dark-border
-    border-color: $dark-border
-    box-shadow: 0 4px 15px rgba($accent-color, 0.15)
+  .menu__seperator
+    border-top-color: $dark-border
 
+  .menu__link.highlight
+    background: $dark-accent-dim
+
+  // ====================================================
+  // DIALOGS
+  // ====================================================
   .dialog
-    background-color: rgba($dark-bg-base, 0.7)
+    background-color: rgba($dark-bg-base, 0.75)
 
   .dialog.withBg .dialog__content
     background-color: $dark-bg-hover
     border: 1px solid $dark-border
-    box-shadow: 0 0.125rem 0.625rem rgba(0,0,0,0.4)
+    border-radius: 12px
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6)
 
-  .section__table-header
-    background-color: rgba(0, 0, 0, 0.95)
-    box-shadow: 0 0.1875rem 0.125rem rgba(0,0,0,0.2)
+  .dialog--signin__main
+    background-color: $dark-bg-hover
+    border: 1px solid $dark-border
+    border-radius: 12px
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6)
 
+  // ====================================================
+  // FORM INPUTS (textbox)
+  // ====================================================
+  input.textbox, textarea.textbox
+    background-color: $dark-bg-hover
+    color: $dark-text-primary
+    border-color: $dark-border
+
+    &:focus
+      border-color: $dark-accent
+      outline-color: $dark-accent-dim
+
+    &::placeholder
+      color: $dark-text-tertiary
+
+  label
+    color: $dark-text-secondary
+
+  // ====================================================
+  // TABLES
+  // ====================================================
   .data-table tr
     border-top: 1px solid $dark-border
     border-bottom: 1px solid $dark-border
 
+  .data-table tr:nth-child(even)
+    background-color: rgba(255, 255, 255, 0.02)
+
+  .data-table thead>tr
+    border-bottom-color: $dark-border
+
+  .section__table-header
+    background-color: rgba($dark-bg-base, 0.95)
+    box-shadow: none
+
+  .typo table th, .typo table td, .typo table caption
+    border-color: $dark-border
+    color: $dark-text-secondary
+
+  .typo table thead th
+    background: $dark-bg-hover
+    color: $dark-text-primary
+
+  .typo table th
+    background: $dark-bg-hover
+
+  // ====================================================
+  // FORMS
+  // ====================================================
+  input, textarea
+    background-color: $dark-bg-hover
+    border: 1px solid $dark-border
+    border-radius: 8px
+    color: $dark-text-primary
+
+    &:focus
+      border-color: $dark-accent
+      outline: 2px solid rgba($dark-accent, 0.15)
+
+  .search>input
+    border-color: $dark-border
+    color: $dark-text-primary
+    background-color: $dark-bg-hover
+
+  .select
+    border: 1px solid $dark-border
+    border-radius: 8px
+    background-color: $dark-bg-hover
+    color: $dark-text-primary
+
+  .select:focus
+    border-color: $dark-accent
+    outline-color: rgba($dark-accent, 0.2)
+
   .checkbox input
     border-color: $dark-border
 
-  .data-table tr:nth-child(even)
-    background-color: $dark-bg-surface
+  label.textbox.material input
+    border-color: $dark-border
+    color: $dark-text-secondary
 
-  .col--ac-tried, .col--ac-tried
+  label:not(.quick-input-list-label)
+    color: $dark-text-secondary
+
+  .help-text
+    color: $dark-text-tertiary
+
+  // ====================================================
+  // CODE
+  // ====================================================
+  pre
+    background-color: $dark-bg-hover
+    border-radius: 8px
+    color: $dark-text-primary
+    text-shadow: none
+
+  code
+    background-color: $dark-bg-hover
+    border-radius: 4px
+    color: $dark-text-primary
+    text-shadow: none
+
+  pre code
+    background-color: transparent
+
+  // ====================================================
+  // BLOCKQUOTES
+  // ====================================================
+  blockquote
+    background-color: $dark-bg-surface
+    color: $dark-text-secondary
     border-left-color: $dark-border
 
+    &.blue, &.red, &.yellow, &.warn, &.note
+      background-color: $dark-bg-surface
+      color: $dark-text-secondary
+
+  blockquote.note
+    border-left-color: $dark-accent
+    &:before
+      color: $dark-accent
+
+  blockquote.warn
+    border-left-color: $dark-error
+    &:before
+      color: $dark-error
+
+  blockquote.red
+    border-left-color: $dark-error
+
+  blockquote.yellow
+    border-left-color: $dark-warning
+
+  blockquote.blue
+    border-left-color: $dark-accent
+
+  // ====================================================
+  // TAB COMPONENT
+  // ====================================================
+  .section__tab-header-item
+    color: $dark-text-secondary !important
+
+    &:hover
+      background: $dark-bg-hover
+      border-color: $dark-accent
+
+    &.tab--active
+      border-color: $dark-accent
+      color: $dark-text-primary !important
+
+  .section__tab-item
+    border-bottom-color: $dark-border
+
+  .section__tab-title
+    color: $dark-text-tertiary
+
+  .section__tab-container.immersive .section__tab-header-item.selected
+    background-color: $dark-bg-surface
+    color: $dark-text-primary
+    box-shadow: none
+
+  // ====================================================
+  // PROBLEM TAGS
+  // ====================================================
+  .problem__tag-link
+    background-color: $dark-bg-hover
+    color: $dark-text-secondary !important
+    border-radius: 4px
+
+  .problem__tag-item
+    color: $dark-text-secondary
+
+  // ====================================================
+  // MESSAGEPAD (私信)
+  // ====================================================
+  .messagepad__sidebar
+    border-right-color: $dark-border
+
+  .messagepad__list-item:hover
+    border-color: $dark-border
+    background-color: $dark-bg-hover
+
+  .messagepad__list-item.active
+    border-color: $dark-accent
+    background-color: $dark-accent-dim
+
+  .messagepad__input
+    border-top-color: $dark-border
+
+  .side--self .messagepad__message__body
+    background: $dark-bg-hover
+    color: $dark-text-primary
+
+    &:after
+      border-top-color: $dark-bg-hover
+
+  .side--other .messagepad__message__body
+    background: $dark-accent
+    color: $dark-bg-base
+
+    &:after
+      border-top-color: $dark-accent
+
+
+  // ====================================================
+  // TOOLTIP
+  // ====================================================
+  .tooltip
+    .drop-content
+      background: $dark-bg-hover
+      color: $dark-text-primary
+      box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5)
+
+    &.drop-element-attached-bottom .drop-content:before
+      border-top-color: $dark-bg-hover
+
+    &.drop-element-attached-top .drop-content:before
+      border-bottom-color: $dark-bg-hover
+
+  // ====================================================
+  // MARKER (context menu)
+  // ====================================================
+  body>.marker
+    background-color: $dark-bg-hover
+    border-color: $dark-border
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5)
+    border-radius: 8px
+
+  body>.marker .marker__toolbar
+    background-color: $dark-bg-hover
+
+  // ====================================================
+  // HINT / NOTIFICATION BANNER
+  // ====================================================
+  .hint
+    background: $dark-bg-hover
+    color: $dark-warning
+    border-bottom: 1px solid $dark-border
+
+  // ====================================================
+  // GLOBAL NOTIFICATION
+  // ====================================================
+  .global-notification
+    background: $dark-bg-hover
+    color: $dark-text-primary
+    border-bottom: 1px solid $dark-border
+
+    &.warning
+      background: rgba($dark-warning, 0.12)
+      color: $dark-warning
+      border-bottom-color: rgba($dark-warning, 0.3)
+
+  // ====================================================
+  // STATUS COLORS
+  // ====================================================
   .col--status, .col--submit-by, .col--lang, .col--case
     border-right-color: $dark-border
 
+  .col--ac-tried
+    border-left-color: $dark-border
+
   .col--role
-    border-left: 1px solid $dark-border
-    border-left-color: rgb(43, 43, 43)
+    border-left-color: $dark-border
 
-  .sidebar-user-profile .user-profile-name
-    color: $dark-text-primary
-
-  .section__tab-header-item:hover
+  // ====================================================
+  // FOOTER
+  // ====================================================
+  .footer
     background-color: $dark-bg-surface
+    color: $dark-text-secondary
+    border-top: 1px solid $dark-border
 
-  .sessionlist__item
-    border-bottom-color: $dark-border
+  @media only screen and (max-width: 600px)
+    .footer__category
+      border-bottom-color: $dark-border
 
+  // ====================================================
+  // PAGER
+  // ====================================================
   .pager.pager-top
     border-bottom-color: $dark-border
     .pager__item
@@ -141,263 +447,298 @@ $hover-background-color = $dark-bg-hover
     .pager__item
       border-top-color: $dark-border
 
-  input
-    background-color: $dark-bg-hover
+  .pager__item
+    color: $dark-text-tertiary
 
-  .search>input
-    border-color: $dark-border
-    border-top-color: rgb(67, 67, 67)
-    border-bottom-color: rgb(67, 67, 67)
-    border-left-color: rgb(67, 67, 67)
-    color: #fff
+    &.link
+      &, .typo &
+        color: $dark-text-tertiary
 
-  .select
-    border: 1px solid $dark-border
-    background-color: $dark-bg-hover
+      &:hover
+        border-color: $dark-accent
+        &, .typo &
+          color: $dark-text-secondary
 
-  .select:focus
-    border-color: $accent-color
-    outline-color: rgba($accent-color, 0.3)
+    &.current
+      color: $dark-accent !important
+      border-color: $dark-accent !important
 
-  input.textbox, textarea.textbox, span.textbox
-    border: 1px solid $dark-border
-    background-color: $dark-bg-hover
-
-  .autocomplete-wrapper input
-    background-color: $dark-bg-hover
-    color: rgba(255,255,255,.85)
-
-  .autocomplete-wrapper
-    border-color: $dark-border
-    background-color: $dark-bg-hover
-
-  label:not(.quick-input-list-label)
-    color: $dark-text-secondary
-
-  .scratchpad-container
-    background-color: $dark-bg-hover
-
-  .toolbar
-    background-color: rgba(23, 23, 23, 0.8)
-
-  pre[class*=language-]
-    border: 1px solid $dark-border
-    background-color: $dark-bg-hover
-
-  code[class*=language-], pre[class*=language-]
-    color: #cbc5c6
-
-  pre[class*=language-]::-moz-selection,pre[class*=language-] ::-moz-selection,code[class*=language-]::-moz-selection,code[class*=language-] ::-moz-selection
-    background-color: #ADD6FF26
-
-  pre[class*=language-]::selection,pre[class*=language-] ::selection,code[class*=language-]::selection,code[class*=language-] ::selection
-    background-color: #ADD6FF26
-
-  :not(pre)>code[class*=language-]
-    background-color: $dark-bg-surface
-    border: 1px solid $dark-border
-
-  .scratchpad__data-input
-    border-left-color: $dark-border
-    background-color: $dark-bg-surface
-    color: $dark-text-secondary
-
-  pre, code
-    background-color: $dark-bg-surface
-
-  .scratchpad__toolbar
-    background-color: $dark-bg-hover
-
-  .scratchpad__toolbar__button.enabled:hover
+  // ====================================================
+  // SIDEBAR
+  // ====================================================
+  .sidebar-user-profile .user-profile-name
     color: $dark-text-primary
-    background-color: lighten($dark-bg-hover, 5%)
 
-  .scratchpad__toolbar__split
-    background-color: $dark-border
-
-  .menu__link.highlight
-    background: rgba($accent-color, 0.1)
-
-  .typo table thead th
-    background: $dark-bg-hover
-    background-color: rgb(30, 30, 30)
-
-  .typo table th, .typo table td, .typo table caption
-    border-color: #666
-    color: $dark-text-secondary
-
-  body>.marker
-    box-shadow: 0 2px 7px rgba(0,0,0,0.4)
-    background-color: $dark-bg-hover
-    border-color: #555
-
-  body>.marker .marker__toolbar
-    background-color: $dark-bg-hover
-
-  .messagepad__sidebar
-    border-right-color: $dark-border
-
-  .messagepad__list-item:hover
-    border-color: $dark-border
-    background-color: $dark-bg-surface
-
-  .messagepad__list-item.active
-    border-color: #ec4899
-    background-color: rgba(236,72,153,.07)
-
-  .messagepad__input
-    border-top-color: $dark-border
-
-  .section__tab-container.immersive .section__tab-header-item.selected
-    background-color: $dark-bg-surface
-    color: $dark-text-secondary
-    box-shadow: 0 0 10px rgba(0,0,0,0.4)
-
-  .dialog--signin__main
-    background-color: $dark-bg-hover
-    box-shadow: 0 0 30px rgba(0,0,0,0.5)
-
-  .nothing-icon
-    filter: brightness(50%)
-
-  .scratchpad__data-input:focus
-    background: $dark-bg-hover
-    border-color: rgba($accent-color, 0.3)
-
-  .section__list__item
+  // ====================================================
+  // MISC STATUS
+  // ====================================================
+  .sessionlist__item
     border-bottom-color: $dark-border
 
-  .autocomplete-list
-    background-color: $dark-bg-hover
-    li[aria-selected=true]
-      background-color: $hover-background-color
-    li[data-focus=true]
-      background-color: rgba($accent-color, 0.15)
-      cursor: pointer
-
-  .dczcomments__item, .dczcomments__reply
-    border-top-color: $dark-border
-
-  .autocomplete-tag
-    background-color: $dark-accent
-
-  .problem__tag-link
-    background-color: $dark-bg-hover
-    color: $dark-text-secondary!important
-
-  label.textbox.material input
-    border-color: #333
-    color: $dark-text-secondary
-    border-bottom-color: rgba(170,170,170,.4)
-
-  .widget--category-filter__drop
-    background-color: $dark-bg-hover
-    box-shadow: 0 0.125rem 0.4375rem rgba(0,0,0,0.4)
-
-  hr
+  .section__list__item
     border-bottom-color: $dark-border
 
   .section__footer
     border-top-color: $dark-border
 
-  .data-table thead>tr
+  .nothing-icon
+    filter: brightness(75%)
+
+  .typo img
+    opacity: 0.92
+
+  hr
     border-bottom-color: $dark-border
 
-  blockquote.note
-    border-left-color: $accent-color
-    &:before
-      color: $accent-color
+  // ====================================================
+  // SUPPLEMENTARY TEXT
+  // ====================================================
+  .supplementary
+    color: $dark-text-secondary
 
-  blockquote.warn
-    border-left-color: #ef4444
-    &:before
-      color: #ef4444
-    
-  blockquote.red
-    border-left-color: #ef4444
+    a, a:visited, a:hover
+      color: $dark-text-secondary
 
-  blockquote.yellow
-    border-left-color: #f59e0b
+  .numbox__text
+    color: $dark-text-tertiary
 
-  blockquote.blue
-    border-left-color: $accent-color
+  // ====================================================
+  // MARK / HIGHLIGHT
+  // ====================================================
+  mark
+    background: rgba($dark-warning, 0.2)
+    color: $dark-text-primary
 
-  .token.comment,.token.prolog,.token.doctype,.token.cdata
-    color: #57A64A
-    font-style: italic
+  // ====================================================
+  // AUTOCOMPLETE
+  // ====================================================
+  .autocomplete-list
+    background-color: $dark-bg-hover
+    border: 1px solid $dark-border
+    border-radius: 8px
 
-  .token.namespace
-    opacity: .7
+    li[aria-selected=true]
+      background-color: $dark-bg-surface
 
-  .token.string
-    color: #D69D85
+    li[data-focus=true]
+      background-color: $dark-accent-dim
+      cursor: pointer
 
-  .token.punctuation,.token.operator
-    color: #B4B4B4
+  .autocomplete-tag
+    background-color: $dark-accent
+    color: $dark-bg-base
 
-  .token.url,.token.symbol,.token.number,.token.boolean,.token.variable,.token.constant,.token.inserted
-    color: #B5CEA8
+  // ====================================================
+  // COMMENTS / DISCUSSION
+  // ====================================================
+  .dczcomments__item, .dczcomments__reply
+    border-top-color: $dark-border
 
-  .token.atrule,.token.keyword,.token.attr-value,.language-autohotkey .token.selector,.language-json .token.boolean,.language-json .token.number,code[class*=language-css]
-    color: #569cd6
+  .dczcomments__operations
+    color: $dark-text-tertiary
 
-  .token.function
-    color: #C8C8C8
+    a, a:visited
+      color: $dark-text-tertiary
 
-  .token.deleted,.language-autohotkey .token.tag
-    color: #9a050f
+    a:hover
+      color: $dark-accent
 
-  .token.selector,.language-autohotkey .token.keyword
-    color: #00009f
+  .dczcomments__item .vote-button
+    color: $dark-text-tertiary
 
-  .token.important
-    color: #e90
+    &.downvote.active
+      color: #ff453a
+    &.upvote.active
+      color: #30d158
 
-  .token.important,.token.bold
-    font-weight: 700
+  // ====================================================
+  // REACTION POPOVER
+  // ====================================================
+  .popover-reaction-item:hover
+    background: $dark-accent-dim
+    color: $dark-accent
 
-  .token.italic
-    font-style: italic
+  .popover-reaction-item
+    color: $dark-text-secondary
 
-  .token.class-name,.language-json .token.property
-    color: #4EC9B0
+  // ====================================================
+  // CATEGORY FILTER
+  // ====================================================
+  .widget--category-filter__drop
+    background-color: $dark-bg-hover
+    border: 1px solid $dark-border
+    border-radius: 8px
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5)
 
-  .token.tag,.token.selector
-    color: #d7ba7d
+  .category-filter__header .list .list__item
+    background: $dark-bg-hover
 
-  .token.attr-name,.token.property,.token.regex,.token.entity
-    color: #d16969
+  .category-filter__body
+    background: $dark-bg-surface
 
-  .token.directive.tag .tag
-    background: #ffff00
-    color: #393a34
+    .search-tag__item
+      background: $dark-bg-hover
 
-  @media only screen and (max-width: 600px) {
-    .footer__category {
-      border-bottom-color: $dark-border
-    }
-  }
+  .search-tag__item:hover
+    background: $dark-bg-surface
+    color: $dark-text-primary
 
+  // ====================================================
+  // OMNIBAR
+  // ====================================================
   .omnibar-toggle
     background-color: $main-background-color
+    color: $dark-text-secondary
+
+  .omnibar-main
     color: $content-color
 
-  .omnibar-main 
-    color: $content-color
-    
     input
-      background-color: $main-background-color !important
+      background-color: $dark-bg-hover !important
       border-color: $dark-border !important
-    
+      color: $dark-text-primary !important
+
     .omnibar-content-section
-      background-color: $main-background-color !important
+      background-color: $dark-bg-hover !important
       border-color: $dark-border !important
+
+  // ====================================================
+  // RECORD / STATUS PAGES
+  // ====================================================
+  .col--status__progress
+    background: rgba($dark-warning, 0.15)
 
   &.hasjs .collapsed #status:not([data-status="7"]) .compiler-text-mask
     background-image: linear-gradient(to bottom, transparent, $dark-bg-base 25px)
 
   &.page--record_detail .subtask
-    background-color: #000 !important
+    background-color: $dark-bg-base !important
 
-  &.page--contest_scoreboard .star-highlight 
-    background: #6f757b
+  // ====================================================
+  // CONTEST SCOREBOARD
+  // ====================================================
+  &.page--contest_scoreboard .star-highlight
+    background: $dark-bg-hover
+
+  // ====================================================
+  // CONTEST PAGE
+  // ====================================================
+  .section--contest .detail-button
+    background: $dark-accent
+    color: $dark-bg-base
+
+  // ====================================================
+  // ERROR PAGE
+  // ====================================================
+  &.page--error
+    color: $dark-text-primary
+
+  // ====================================================
+  // SYNTAX HIGHLIGHTING (VS Code Dark+ inspired)
+  // ====================================================
+  .token
+    text-shadow: none
+
+  .token.comment, .token.prolog, .token.doctype, .token.cdata
+    color: #6a9955
+    font-style: italic
+
+  .token.namespace
+    opacity: 0.7
+
+  .token.string
+    color: #ce9178
+
+  .token.punctuation, .token.operator
+    color: #b0b0b0
+
+  .token.url, .token.symbol, .token.number, .token.boolean, .token.variable, .token.constant, .token.inserted
+    color: #b5cea8
+
+  .token.atrule, .token.keyword, .token.attr-value
+    color: #569cd6
+
+  .token.function
+    color: #dcdcaa
+
+  .token.class-name
+    color: #4ec9b0
+
+  .token.tag, .token.selector
+    color: #569cd6
+
+  .token.attr-name, .token.property, .token.regex, .token.entity
+    color: #9cdcfe
+
+  .token.important, .token.bold
+    font-weight: 700
+
+  .token.italic
+    font-style: italic
+
+  // ====================================================
+  // SCROLLBAR
+  // ====================================================
+  ::-webkit-scrollbar-track
+    background: $dark-bg-base
+
+  ::-webkit-scrollbar-thumb
+    background: $dark-border
+    border-radius: 8px
+
+    &:hover
+      background: $dark-text-tertiary
+
+  // ====================================================
+  // SCRATCHPAD (??????)
+  // ====================================================
+  .scratchpad-container
+    background: $dark-bg-base
+
+  .scratchpad__toolbar
+    background: $dark-bg-surface
+
+  .scratchpad__toolbar__button
+    color: $dark-text-secondary
+
+    &.enabled:hover
+      color: $dark-accent
+      background: $dark-accent-dim
+
+    &.activated
+      color: $dark-bg-base !important
+      background: $dark-accent !important
+
+  .scratchpad__toolbar__split
+    background: $dark-border
+
+  .scratchpad__tablist
+    div
+      fill: $dark-text-tertiary
+      color: $dark-text-tertiary
+
+      &:hover
+        fill: $dark-text-primary
+        color: $dark-text-primary
+
+    div.scratchpad__tab-active
+      border-left-color: $dark-accent
+      fill: $dark-accent
+      color: $dark-accent
+
+  .scratchpad__data-input
+    background: $dark-bg-hover
+    border-left-color: $dark-border
+    color: $dark-text-secondary
+
+    &:focus
+      background: $dark-bg-surface
+      border-left-color: $dark-accent
+
+  .icol--stat
+    color: $dark-text-tertiary
+
+  // Problem detail tab headers
+  .section__tab-header-item
+    &:hover
+      background: $dark-accent-dim

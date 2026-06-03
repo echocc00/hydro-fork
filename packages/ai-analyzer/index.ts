@@ -1,6 +1,7 @@
 import {
     Context, Logger, ProblemModel, RecordModel, Schema, Service, superagent,
 } from 'hydrooj';
+import { STATUS } from '@hydrooj/common';
 
 const logger = new Logger('ai-analyzer');
 
@@ -16,20 +17,20 @@ interface AiAnalysisError {
 }
 
 const STATUS_MAP: Record<number, string> = {
-    0: 'Waiting',
-    1: 'Accepted',
-    2: 'Wrong Answer',
-    3: 'Time Limit Exceeded',
-    4: 'Memory Limit Exceeded',
-    5: 'Output Limit Exceeded',
-    6: 'Runtime Error',
-    7: 'Compile Error',
-    8: 'System Error',
-    9: 'Canceled',
-    10: 'Skipped',
-    11: 'Hack Successful',
-    12: 'Hack Unsuccessful',
-    13: 'Format Error',
+    [STATUS.STATUS_WAITING]: 'Waiting',
+    [STATUS.STATUS_ACCEPTED]: 'Accepted',
+    [STATUS.STATUS_WRONG_ANSWER]: 'Wrong Answer',
+    [STATUS.STATUS_TIME_LIMIT_EXCEEDED]: 'Time Limit Exceeded',
+    [STATUS.STATUS_MEMORY_LIMIT_EXCEEDED]: 'Memory Limit Exceeded',
+    [STATUS.STATUS_OUTPUT_LIMIT_EXCEEDED]: 'Output Limit Exceeded',
+    [STATUS.STATUS_RUNTIME_ERROR]: 'Runtime Error',
+    [STATUS.STATUS_COMPILE_ERROR]: 'Compile Error',
+    [STATUS.STATUS_SYSTEM_ERROR]: 'System Error',
+    [STATUS.STATUS_CANCELED]: 'Canceled',
+    [STATUS.STATUS_ETC]: 'Unknown Error',
+    [STATUS.STATUS_HACK_SUCCESSFUL]: 'Hack Successful',
+    [STATUS.STATUS_HACK_UNSUCCESSFUL]: 'Hack Unsuccessful',
+    [STATUS.STATUS_FORMAT_ERROR]: 'Format Error',
 };
 
 const SYSTEM_PROMPT = [
@@ -49,7 +50,7 @@ const SYSTEM_PROMPT = [
 class AiAnalyzerService extends Service {
     static Config = Schema.object({
         endpoint: Schema.string().default('https://api.openai.com/v1'),
-        apiKey: Schema.string().role('secret').default(''),
+        apiKey: Schema.string().default('').role('secret'),
         model: Schema.string().default('gpt-4o-mini'),
         maxConcurrency: Schema.number().default(3),
         timeout: Schema.number().default(30000),
@@ -105,7 +106,8 @@ class AiAnalyzerService extends Service {
                         { role: 'user', content: userPrompt },
                     ],
                     temperature: 0.3,
-                    max_tokens: 1024,
+                    max_tokens: 2048,
+                    skip_think: true,
                 })
                 .timeout(this.config.timeout);
 
@@ -113,14 +115,25 @@ class AiAnalyzerService extends Service {
             if (!body?.choices?.[0]?.message?.content) {
                 throw new Error('Empty response from LLM');
             }
-            const raw = body.choices[0].message.content;
+            let raw = body.choices[0].message.content;
+            // Strip <think>...</think> tags (MiniMax M2.7 thinking mode)
+            raw = raw.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
             let parsed: any;
             try {
                 parsed = JSON.parse(raw);
             } catch {
-                const match = raw.match(/\{[\s\S]*\}/);
-                if (match) parsed = JSON.parse(match[0]);
-                else throw new Error('Not valid JSON');
+                const start = raw.indexOf('{');
+                if (start === -1) throw new Error('No JSON object found in response');
+                let depth = 0;
+                let end = start;
+                for (let i = start; i < raw.length; i++) {
+                    if (raw[i] === '{') depth++;
+                    else if (raw[i] === '}') {
+                        depth--;
+                        if (depth === 0) { end = i + 1; break; }
+                    }
+                }
+                parsed = JSON.parse(raw.slice(start, end));
             }
             return {
                 score: Math.max(1, Math.min(10, Number(parsed.score) || 5)),
@@ -143,11 +156,42 @@ class AiAnalyzerService extends Service {
             logger.warn('AI Analyzer: apiKey not configured, service will run without analysis');
         }
 
+        const terminalStatuses: number[] = [
+            STATUS.STATUS_ACCEPTED,
+            STATUS.STATUS_WRONG_ANSWER,
+            STATUS.STATUS_TIME_LIMIT_EXCEEDED,
+            STATUS.STATUS_MEMORY_LIMIT_EXCEEDED,
+            STATUS.STATUS_OUTPUT_LIMIT_EXCEEDED,
+            STATUS.STATUS_RUNTIME_ERROR,
+            STATUS.STATUS_COMPILE_ERROR,
+            STATUS.STATUS_SYSTEM_ERROR,
+            STATUS.STATUS_CANCELED,
+            STATUS.STATUS_ETC,
+            STATUS.STATUS_FORMAT_ERROR,
+            STATUS.STATUS_HACK_SUCCESSFUL,
+            STATUS.STATUS_HACK_UNSUCCESSFUL,
+        ];
+
         yield this.ctx.on('record/change', async (rdoc) => {
-            if (!rdoc?.code || !this.config.apiKey) return;
-            const terminalStatuses = [1,2,3,4,5,6,7,8,9,10,13];
-            if (!terminalStatuses.includes(rdoc.status)) return;
-            if (rdoc.aiAnalysis) return;
+            if (!rdoc) return;
+            if (!rdoc.code) {
+                logger.debug('record/change: no code in rdoc, skip (rid=%s)', rdoc._id);
+                return;
+            }
+            if (!this.config.apiKey) {
+                logger.debug('record/change: apiKey not configured, skip (rid=%s)', rdoc._id);
+                return;
+            }
+            if (!terminalStatuses.includes(rdoc.status)) {
+                logger.debug('record/change: status=%d not terminal, skip (rid=%s)', rdoc.status, rdoc._id);
+                return;
+            }
+            if ((rdoc as any).aiAnalysis) {
+                logger.debug('record/change: aiAnalysis already exists, skip (rid=%s)', rdoc._id);
+                return;
+            }
+
+            logger.info('record/change: triggering AI analysis for rid=%s status=%d lang=%s', rdoc._id, rdoc.status, rdoc.lang);
 
             this.enqueue(async () => {
                 try {
@@ -162,7 +206,7 @@ class AiAnalyzerService extends Service {
 
                     const updatedRdoc = await RecordModel.update(
                         rdoc.domainId, rdoc._id,
-                        { $set: { aiAnalysis: result as any } },
+                        { aiAnalysis: result as any },
                     );
                     if (updatedRdoc) {
                         this.ctx.broadcast('record/change', updatedRdoc);
@@ -178,8 +222,7 @@ class AiAnalyzerService extends Service {
             'Feasibility Score': '可行性评分',
             'Suggestions': '改进建议',
             'Risks': '风险提示',
-        });
-    }
+        });    }
 }
 
 export default AiAnalyzerService;

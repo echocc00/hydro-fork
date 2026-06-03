@@ -142,22 +142,22 @@ class VideoEditHandler extends Handler {
         };
     }
 
-    @param('title', Types.Title)
+    @param('title', Types.Content)
     @param('url', Types.Content)
-    @param('description', Types.Content)
-    @param('category', Types.Title)
-    async postCreate(domainId: string, title: string, url: string, description: string, category: string) {
-        const did = await VideoModel.add(this.user._id, title, url, description, category || '未分类');
+    @param('description', Types.Content, true)
+    @param('category', Types.Title, true)
+    async postCreate(domainId: string, title: string, url: string, description = '', category = '未分类') {
+        const did = await VideoModel.add(this.user._id, title, url, description, category);
         this.response.redirect = this.url('video_detail', { vid: did });
     }
 
     @param('vid', Types.ObjectId)
-    @param('title', Types.Title)
+    @param('title', Types.Content)
     @param('url', Types.Content)
-    @param('description', Types.Content)
-    @param('category', Types.Title)
-    async postUpdate(domainId: string, vid: ObjectId, title: string, url: string, description: string, category: string) {
-        await VideoModel.edit(vid, title, url, description, category || '未分类');
+    @param('description', Types.Content, true)
+    @param('category', Types.Title, true)
+    async postUpdate(domainId: string, vid: ObjectId, title: string, url: string, description = '', category = '未分类') {
+        await VideoModel.edit(vid, title, url, description, category);
         this.response.redirect = this.url('video_detail', { vid });
     }
 
@@ -170,10 +170,10 @@ class VideoEditHandler extends Handler {
 
 export async function apply(ctx: Context) {
     ctx.Route('video_main', '/video', VideoMainHandler);
-    ctx.Route('video_main_paged', '/video/:page', VideoMainHandler);
     ctx.Route('video_detail', '/video/detail/:vid', VideoDetailHandler);
     ctx.Route('video_create', '/video/create', VideoEditHandler, PRIV.PRIV_USER_PROFILE);
     ctx.Route('video_edit', '/video/:vid/edit', VideoEditHandler, PRIV.PRIV_USER_PROFILE);
+    ctx.Route('video_main_paged', '/video/:page', VideoMainHandler);
 
     ctx.injectUI('Nav', 'video_main', (h) => ({
         icon: 'play',
