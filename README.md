@@ -1,3 +1,10 @@
+> [!NOTE]
+> **本仓库是 [hydro-dev/Hydro](https://github.com/hydro-dev/Hydro) 的镜像 / 二次开发分支。**
+> 原始项目采用 **AGPL-3.0** License,本仓库同样遵循 AGPL-3.0,完整条款见 [LICENSE](./LICENSE)。
+> 所有功能与文档以官方仓库 [hydro-dev/Hydro](https://github.com/hydro-dev/Hydro) 为准,本仓库仅做本地化与定制。
+
+---
+
 # Hydro
 
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/hydro-dev/hydro/build.yml?branch=master)
