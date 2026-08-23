@@ -1,7 +1,23 @@
-> [!NOTE]
+> [!IMPORTANT]
+> # ⚠️ Fork 声明 · 重要
+>
 > **本仓库是 [hydro-dev/Hydro](https://github.com/hydro-dev/Hydro) 的镜像 / 二次开发分支。**
-> 原始项目采用 **AGPL-3.0** License,本仓库同样遵循 AGPL-3.0,完整条款见 [LICENSE](./LICENSE)。
-> 所有功能与文档以官方仓库 [hydro-dev/Hydro](https://github.com/hydro-dev/Hydro) 为准,本仓库仅做本地化与定制。
+> 原仓库名 `js001`,于 2026-08-23 改名为 `hydro-fork`,GitHub 自动 301 重定向(永久)。
+>
+> **License: AGPL-3.0(沿用上游)**
+> - 原始项目采用 **AGPL-3.0** License,本仓库同样遵循 AGPL-3.0
+> - 完整条款见 [LICENSE](./LICENSE)
+> - 上游任何 fork / 分发 / 网络服务都必须开源(AGPL copyleft 传染性)
+>
+> **归属说明**
+> - 所有功能与文档以官方仓库 [hydro-dev/Hydro](https://github.com/hydro-dev/Hydro) 为准
+> - 本仓库仅做本地化与定制,**贡献者请同时向上游提交 PR**(避免重复维护)
+> - 上游 Bug / Issue / Feature 请求请到 [hydro-dev/Hydro/issues](https://github.com/hydro-dev/Hydro/issues),**不要**在本仓库提
+
+---
+
+> 💼 **商业授权**:本仓库采用 AGPL-3.0,**商业使用受限**。如需独立商业授权请联系 [@echocc00](https://github.com/echocc00)。
+> 上游商业问题请联系 [hydro-dev 官方](https://github.com/hydro-dev)。
 
 ---
 
